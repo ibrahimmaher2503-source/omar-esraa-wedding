@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-test('music attempts autoplay, retries on interaction, and respects pause', async () => {
+test('music attempts autoplay, retries on interaction, and cleans up', async () => {
   const { createMusicController } = await import('../src/music.ts');
   const target = new EventTarget();
   let calls = 0;
@@ -16,14 +16,11 @@ test('music attempts autoplay, retries on interaction, and respects pause', asyn
   assert.equal(audio.volume, .55);
   target.dispatchEvent(new Event('click'));
   assert.equal(audio.paused, false);
-  music.pause();
   target.dispatchEvent(new Event('click'));
   music.retry();
   assert.equal(calls, 2);
-  music.start();
-  assert.equal(calls, 3);
   music.dispose();
-  audio.paused = true;
+  assert.equal(audio.paused, true);
   target.dispatchEvent(new Event('keydown'));
-  assert.equal(calls, 3);
+  assert.equal(calls, 2);
 });

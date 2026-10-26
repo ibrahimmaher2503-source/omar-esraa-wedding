@@ -5,7 +5,6 @@
 
 .gift-qr-card{margin:0 auto 80px;width:min(100%,350px);padding:30px 22px;border:1px solid #d8cce5;border-radius:16px;background:#faf7fc;box-shadow:0 12px 30px #6e557d12}.gift-qr-card h2{margin-bottom:14px}.gift-qr-card>p{font-size:16px}.qr-frame{background:white;border-radius:16px;padding:16px;margin:24px auto 18px;max-width:255px;box-shadow:0 4px 15px #58406612}.qr-frame img{width:100%;height:auto;image-rendering:pixelated}.demo-badge{font-family:Georgia,serif;font-size:11px;letter-spacing:.08em;color:#6b4b80;border:1px solid #cab8d7;border-radius:20px;padding:7px 12px;display:inline-block}.gift-qr-card .qr-disclaimer{font-size:13px;line-height:1.7;margin:15px 0 20px}.gift-qr-card .pill{font-size:13px}.closing{padding-top:0}
 
-.music-control{position:fixed;right:18px;top:18px;z-index:120;display:flex;align-items:center;gap:8px;padding:11px 16px;border:1px solid #d7cbe2;border-radius:24px;background:#faf7fcf2;color:#6b568b;box-shadow:0 3px 15px #45305520;font-family:Georgia,serif;font-size:12px;min-height:44px}.music-control:disabled{opacity:.65;cursor:default}@media(max-width:600px){.music-control{right:12px;top:12px;padding:10px 13px}}
 
 .couple-portrait{object-fit:cover;object-position:center 38%;transform:rotate(-9deg)}
 /* Invitation opening sequence */

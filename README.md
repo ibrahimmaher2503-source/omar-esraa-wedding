@@ -14,7 +14,7 @@ Run `npm test` for input, session, request-boundary, and audio tests; `npm run b
 
 The gift QR section is removed. User-supplied audio is bundled at public/assets/audio/wedding-song.m4a.
 
-Audio: AAC copied losslessly from the uploaded file, with cover artwork removed and fast-start enabled. Autoplay is attempted on mount; Open Invitation retries synchronously on a user gesture if browser autoplay is blocked. The music button pauses/resumes playback; playback loops at 55% volume.
+Audio: AAC copied losslessly from the uploaded file, with cover artwork removed and fast-start enabled. Autoplay is attempted on mount; Open Invitation retries synchronously on a user gesture if browser autoplay is blocked. Playback loops at 55% volume, without an on-page audio control.
 
 The envelope displays the user-provided couple photograph, optimized to WebP without retouching.
 
