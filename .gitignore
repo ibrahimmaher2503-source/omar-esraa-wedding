@@ -1,7 +1,15 @@
 node_modules/
 dist/
+.vercel/
+.env*
+!.env.example
+admin-access.txt
 *.tar.gz
 reference.html
 opened.html
 ref-scripts.txt
 reference-text.txt
+
+
+.agents/
+skills-lock.json

@@ -1,0 +1,12 @@
+.git
+.vercel
+dist
+.env*
+admin-access.txt
+.agents
+skills-lock.json
+tests
+reference.html
+opened.html
+ref-scripts.txt
+reference-text.txt
