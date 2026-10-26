@@ -12,11 +12,16 @@ test('both response forms share exactly one guest-name field', async () => {
   const temporary = new URL(`.responses-${randomUUID()}.mjs`, import.meta.url);
   try {
     await writeFile(temporary, compiled);
-    const { GuestResponses } = await import(temporary.href);
+    const { GuestResponses, WishSent } = await import(temporary.href);
     const html = renderToStaticMarkup(React.createElement(GuestResponses));
     assert.equal((html.match(/<input\b[^>]*\bname="name"/g) || []).length, 1);
     assert.equal((html.match(/<form\b/g) || []).length, 2);
     assert.match(html, /id="guest-name"[^>]*form="attendance-form"[^>]*required/);
     assert.match(html, /href="#guest-name">Add your name above/);
+    const confirmation = renderToStaticMarkup(React.createElement(WishSent, { name: 'Guest <script>' }));
+    assert.doesNotMatch(confirmation, /<form\b|<textarea\b|Send Your Wishes/);
+    assert.match(confirmation, /role="status"/);
+    assert.match(confirmation, /Thank you, Guest &lt;script&gt;/);
+    assert.match(confirmation, /Your message has been sent to Omar &amp; Esraa/);
   } finally { await unlink(temporary).catch(() => {}); }
 });

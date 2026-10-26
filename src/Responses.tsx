@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Heart } from 'lucide-react';
 
 async function saveResponse(data: object) {
   const response = await fetch('/api/responses', {
@@ -52,10 +53,11 @@ function Attendance({ name: guestName, onNameChange }: { name: string; onNameCha
 function Guestbook({ name: guestName }: { name: string }) {
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
+  const [sentName, setSentName] = useState('');
   const id = useRef('');
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (busy) return;
+    if (busy || sentName) return;
     const form = e.currentTarget, data = new FormData(form);
     const name = guestName.trim(), message = String(data.get('message') || '').trim();
     if (!name) { setStatus('Please add your name above before sending your wishes.'); document.getElementById('guest-name')?.focus(); return; }
@@ -64,10 +66,11 @@ function Guestbook({ name: guestName }: { name: string }) {
     id.current ||= crypto.randomUUID();
     try {
       await saveResponse({ id: id.current, kind: 'wish', name, message });
-      id.current = ''; form.reset(); setStatus('Message Sent ✓ Thank you! Your wishes have been sent to Omar & Esraa.');
+      setSentName(name); setStatus('');
     } catch (error) { setStatus(error instanceof Error && error.message.startsWith('Please wait') ? error.message : 'Your message could not be confirmed. Please check your connection and try again.'); }
     finally { setBusy(false); }
   }
+  if (sentName) return <WishSent name={sentName}/>;
   return <section className="guestbook">
     <p className="section-number">VI</p><h2>LEAVE YOUR WISHES</h2>
     <p className="invite-text">Leave a message for Omar & Esraa<br/>as they begin their life together.</p><p>Your kind words will make this day even more special.</p>
@@ -77,5 +80,20 @@ function Guestbook({ name: guestName }: { name: string }) {
       <label htmlFor="guest-message">Your message to Omar & Esraa</label><textarea id="guest-message" name="message" placeholder="Write your message to Omar & Esraa…" required maxLength={500} rows={4} disabled={busy}/>
       <button className="pill" disabled={busy}>{busy ? 'Sending your wishes…' : 'Send Your Wishes'}</button><p role="status" className="status">{status}</p>
     </form><p className="local-note">Your message is shared privately with Omar & Esraa.</p>
+  </section>;
+}
+
+export function WishSent({ name }: { name: string }) {
+  const confirmation = useRef<HTMLDivElement>(null);
+  useEffect(() => { confirmation.current?.focus(); }, []);
+  return <section className="guestbook">
+    <p className="section-number">VI</p><h2>WITH LOVE & THANKS</h2>
+    <div className="reply-success wish-success" role="status" tabIndex={-1} ref={confirmation}>
+      <span className="wish-success-mark" aria-hidden="true"><Heart size={25} strokeWidth={1.5}/></span>
+      <h3>Thank you, {name}.</h3>
+      <p>Your message has been sent to Omar & Esraa.</p>
+      <p className="wish-success-note">Your kind words mean so much to us.<br/>Thank you for being part of our story.</p>
+      <p className="wish-success-signature">With love, Omar & Esraa</p>
+    </div>
   </section>;
 }
